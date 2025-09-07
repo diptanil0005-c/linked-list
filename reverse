@@ -1,1 +1,26 @@
-reverse 
+#include <stdio.h>
+#include <string.h>
+void reverse(char str[],int start, int end){
+    if(start>=end){
+        return;
+    }
+else{
+    //swap characters
+    char temp;
+    temp=str[start];
+    str[start]=str[end];
+    str[end]=temp;
+    return reverse(str,start+1,end-1);
+}
+}
+int main()
+{
+    char str[100];
+    printf("Enter:\n");
+    scanf("%s",str);
+    int size= strlen(str);
+    reverse(str,0,size-1);
+    printf("%s",str);
+
+    return 0;
+} 

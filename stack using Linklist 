@@ -1,0 +1,93 @@
+#include <stdio.h>
+#include<stdlib.h>
+
+struct node{
+    int data;
+    struct node*next;
+
+};
+
+int isempty(struct node*top)
+{
+    if(top==NULL){
+        return 1;
+    }
+    else{
+        return 0;
+    }
+}
+
+struct node* push(struct node*top,int x){
+    struct node*n=(struct node*)malloc(sizeof(struct node));
+    if(n==NULL){
+        printf("Empty");
+    }
+    else{
+        n->data=x;
+        n->next=top;
+        top=n;
+        return top;
+    }
+}
+
+struct node* pop(struct node *top) {
+    if (isempty(top)) {
+        printf("Stack underflow (empty stack)\n");
+        return top;
+    }
+    struct node *temp = top;
+    printf("Popped element: %d\n", top->data);
+    top = top->next;
+    free(temp);
+    return top;
+}
+
+void disp(struct node* top){
+    if (isempty(top)){
+        printf("empty");
+        return;
+    }
+    else{
+        struct node* temp=top;
+        while(temp!=NULL){
+            printf("%d->",temp->data);
+            temp=temp->next;
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    struct node* top=NULL;
+    int choice, value;
+    while(1){
+        printf("1.push\n");
+         printf("2.pop\n");
+          printf("3.disp\n");
+          scanf("%d",&choice);
+          
+          switch(choice){
+              case 1:
+              printf("push\n");
+              scanf("%d",&value);
+              top=push(top,value);
+              break;
+              case 2:
+              printf("pop\n");
+              
+              top=pop(top);
+              break;
+               case 3:
+              printf("disp\n");
+            
+              disp(top);
+              break;
+              default:
+              printf("invalid\n");
+              
+          }
+        
+    }
+   
+    return 0;
+}

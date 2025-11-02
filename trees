@@ -1,0 +1,104 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure of a tree node
+struct Node {
+    int data;
+    struct Node *left;
+    struct Node *right;
+};
+
+// Function to create a new node
+struct Node* createNode(int value) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = value;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+// Insert nodes (Binary Tree creation using user input or hardcoded list)
+struct Node* insertNode(struct Node* root, int value) {
+    if (root == NULL) {
+        return createNode(value);   // First node becomes root
+    }
+    char choice;
+    printf("Insert %d to left or right of %d? (L/R): ", value, root->data);
+    scanf(" %c", &choice);  // space before %c handles newline issue
+
+    if (choice == 'L' || choice == 'l') {
+        root->left = insertNode(root->left, value);
+    } else {
+        root->right = insertNode(root->right, value);
+    }
+    return root;
+}
+
+// Pre-order Traversal (Root → Left → Right)
+void preorder(struct Node* root) {
+    if (root == NULL) return;
+    printf("%d ", root->data);
+    preorder(root->left);
+    preorder(root->right);
+}
+
+// In-order Traversal (Left → Root → Right)
+void inorder(struct Node* root) {
+    if (root == NULL) return;
+    inorder(root->left);
+    printf("%d ", root->data);
+    inorder(root->right);
+}
+
+// Post-order Traversal (Left → Right → Root)
+void postorder(struct Node* root) {
+    if (root == NULL) return;
+    postorder(root->left);
+    postorder(root->right);
+    printf("%d ", root->data);
+}
+
+// Function to find height of binary tree
+int height(struct Node* root) {
+    if (root == NULL) return 0;
+    int leftHeight = height(root->left);
+    int rightHeight = height(root->right);
+    return (leftHeight > rightHeight ? leftHeight : rightHeight) + 1;
+}
+
+// Function to count leaf nodes
+int countLeafNodes(struct Node* root) {
+    if (root == NULL) return 0;
+    if (root->left == NULL && root->right == NULL) return 1;
+    return countLeafNodes(root->left) + countLeafNodes(root->right);
+}
+
+// Main function
+int main() {
+    struct Node* root = NULL;
+    int n, value;
+
+    printf("Enter number of nodes: ");
+    scanf("%d", &n);
+
+    for (int i = 0; i < n; i++) {
+        printf("Enter value for node %d: ", i + 1);
+        scanf("%d", &value);
+        root = insertNode(root, value);
+    }
+
+    printf("\nPre-order Traversal: ");
+    preorder(root);
+
+    printf("\nIn-order Traversal: ");
+    inorder(root);
+
+    printf("\nPost-order Traversal: ");
+    postorder(root);
+
+    printf("\nHeight of Tree: %d", height(root));
+
+    printf("\nNumber of Leaf Nodes: %d\n", countLeafNodes(root));
+
+    return 0;
+}
